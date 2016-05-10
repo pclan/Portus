@@ -104,7 +104,7 @@
             th Retrigger
         tbody#webhook_deliveries
           - @deliveries.each do |delivery|
-            tr
+            tr[id="webhook_delivery_#{delivery.id}"]
               td
                 - if delivery.success?
                   i.fa.fa-check.fa-lg.text-success
@@ -112,8 +112,21 @@
                   i.fa.fa-close.fa-lg.text-danger
                 = delivery.uuid
               td
-                button.btn.btn-default.btn-retrigger-webhook[
-                  value="#{delivery.uuid}"
-                  class="details"]
-                  i.fa.fa-refresh.fa-lg
+                - if delivery.webhook.enabled
+                  a.btn.btn-default.btn-retrigger-webhook[data-remote="true"
+                    data-method="put"
+                    rel="nofollow"
+                    href=url_for(namespace_webhook_delivery_path(@namespace, @webhook, delivery))
+                    ]
+                      i.fa.fa-refresh.fa-lg
+                - else
+                  a.btn.btn-default.btn-retrigger-webhook[data-placement="left"
+                    data-toggle="popover"
+                    data-title="Please confirm"
+                    data-content='<p>This webhook is disabled. Are you sure you want to retrigger it?</p><a class="btn btn-primary">No</a> <a class="btn btn-default" data-method="put" rel="nofollow" data-remote="true" href="#{url_for(namespace_webhook_delivery_path(@namespace, @webhook, delivery))}">Yes</a>'
+                    data-html="true"
+                    tabindex="0"
+                    role="button"
+                    ]
+                    i.fa.fa-refresh.fa-lg
   .panel-footer= paginate(@deliveries)

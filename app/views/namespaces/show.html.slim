@@ -49,6 +49,13 @@
       'Namespace:
       strong
         = @namespace.clean_name
+      .pull-right
+        a.btn.btn-link.btn-xs.btn-show-webhooks[
+          value="#{@namespace.id}" class="button_namespace_description"
+          href=url_for(namespace_webhooks_path(@namespace))
+          ]
+          i.fa.fa-eye.fa-lg
+          | Show webhooks
     - unless @namespace.global?
       h6.label.label-info#team-label
         | <span>Belongs to: </span>

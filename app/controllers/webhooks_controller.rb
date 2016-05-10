@@ -10,9 +10,7 @@ class WebhooksController < ApplicationController
   # GET /namespaces/1/webhooks
   # GET /namespaces/1/webhooks.json
   def index
-    @webhooks = policy_scope(Webhook)
-      .where("namespace_id = ?", @namespace.id)
-      .page(params[:page])
+    @webhooks = policy_scope(Webhook) .where(namespace: @namespace) .page(params[:page])
 
     respond_with(@namespace, @webhooks)
   end

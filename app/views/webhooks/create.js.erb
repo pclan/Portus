@@ -6,8 +6,8 @@
   $('#alert').fadeIn();
 
   $('#add_webhook_form').fadeOut();
-  $('#add_webhook_btn i').addClass("fa-chevron-down")
-  $('#add_webhook_btn i').removeClass("fa-chevron-up")
+  $('#add_webhook_btn i').addClass("fa-plus-circle")
+  $('#add_webhook_btn i').removeClass("fa-minus-circle")
 
   if ($('#webhooks').length > 0) {
     $("<%= escape_javascript(render partial: "webhooks/webhook", locals: {namespace: @namespace,webhook: @webhook}) %>").appendTo("#webhooks");
