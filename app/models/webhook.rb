@@ -23,6 +23,13 @@ require "typhoeus"
 require "securerandom"
 require "json"
 
+# A Webhook describes a kind of callback to an endpoint defined by an URL.
+# Futher parameters are username and password, which are used for basic
+# authentication. The parameters request_method and content_type are limitted
+# to GET and POST, and application/json and application/x-www-form-urlencoded
+# respectively. Webhooks can be enabled or disabled.
+# After a webhook has been triggered with the provided parameters, a
+# WebhookDelivery object is created.
 class Webhook < ActiveRecord::Base
   include PublicActivity::Common
 
@@ -70,6 +77,7 @@ class Webhook < ActiveRecord::Base
 
   private
 
+  # create_request creates and returns a Request object with the provided arguments.
   def self.create_request(webhook, args, headers, event)
     request = Typhoeus::Request.new(webhook.url, args)
 
@@ -105,6 +113,9 @@ class Webhook < ActiveRecord::Base
     )
   end
 
+  # headers_from_webhook gathers all headers belonging to the provided webhook.
+  # Also, it creates a basic auth string if username and password are provided.
+  # The function returns both headers and auth string.
   def self.headers_from_webhook(webhook)
     headers = { "Content-Type" => webhook.content_type }
     WebhookHeader.where(webhook: webhook).find_each do |header|

@@ -1,3 +1,5 @@
+# WebhooksController manages the creation/removal/update of webhooks.
+# Also, it manages their state, i.e. enabled/disabled.
 class WebhooksController < ApplicationController
   respond_to :html, :js
 

@@ -19,11 +19,15 @@
 #  index_webhook_deliveries_on_webhook_id_and_uuid  (webhook_id,uuid) UNIQUE
 #
 
+# A WebhookDelivery is created once a webhook has been triggered. They hold
+# information regarding both the request and the response.  Webhook deliveries
+# can also be retrigged.
 class WebhookDelivery < ActiveRecord::Base
   belongs_to :webhook
 
   validates :uuid, uniqueness: { scope: :webhook_id }
 
+  # success? returns whether or not the request was successful (status 200).
   def success?
     status == 200
   end
@@ -55,6 +59,9 @@ class WebhookDelivery < ActiveRecord::Base
 
   private
 
+  # fetch_headers gathers all headers belonging to the webhook.
+  # Also, it creates a basic auth string if username and password are provided.
+  # The function returns both headers and auth string.
   def fetch_headers
     headers = { "Content-Type" => webhook.content_type }
     WebhookHeader.where(webhook: webhook).find_each do |header|
