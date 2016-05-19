@@ -26,6 +26,8 @@ RSpec.describe WebhooksController, type: :controller do
       namespace: namespace
     )
   end
+  let!(:webhook_header) { create(:webhook_header, webhook: webhook) }
+  let!(:webhook_delivery) { create(:webhook_delivery, webhook: webhook) }
 
   before :each do
     sign_in user

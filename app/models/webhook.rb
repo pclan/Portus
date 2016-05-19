@@ -52,6 +52,12 @@ class Webhook < ActiveRecord::Base
           url.start_with?("https://")
     end
   end
+
+  before_destroy do
+    headers.destroy_all
+    deliveries.destroy_all
+  end
+
   before_destroy :update_activities!
 
   # Handle a push event from the registry. All enabled webhooks of the provided
