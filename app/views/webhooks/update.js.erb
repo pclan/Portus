@@ -10,4 +10,7 @@
   el.addClass('fa-pencil');
 
   $('.webhook_information .panel-body').html("<%= escape_javascript(render partial: "detail", locals: {webhook: @webhook}) %>");
+  $('#alert p').html("Webhook '<%= @webhook.host %>' has been updated successfully");
+  $('#alert').fadeIn();
+  $('.webhook_information .panel-heading h5 strong').text("<%= @webhook.host %> ")
 <% end %>

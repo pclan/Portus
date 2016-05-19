@@ -22,6 +22,7 @@ require "base64"
 require "typhoeus"
 require "securerandom"
 require "json"
+require "uri"
 
 # A Webhook describes a kind of callback to an endpoint defined by an URL.
 # Futher parameters are username and password, which are used for basic
@@ -43,6 +44,14 @@ class Webhook < ActiveRecord::Base
 
   validates :url, presence: true, url: true
 
+  # default to http if no protocol has been specified. If unspecified, the URL
+  # validator will fail.
+  before_validation do
+    unless url.nil? || url.strip.empty?
+      self.url = "http://#{url}" unless url.start_with?("http://") ||
+          url.start_with?("https://")
+    end
+  end
   before_destroy :update_activities!
 
   # Handle a push event from the registry. All enabled webhooks of the provided
@@ -73,6 +82,13 @@ class Webhook < ActiveRecord::Base
     end
 
     hydra.run
+  end
+
+  # host returns the host part of the URL. This is useful when wanting a pretty
+  # representation of a webhook.
+  def host
+    _, _, host, = URI.split url
+    host
   end
 
   private

@@ -38,8 +38,11 @@
     .panel-heading
       h5
         strong
-          '#{@webhook.url}
+          '#{@webhook.host}
         ' webhook
+        small
+          a[data-placement="right" data-toggle="popover" data-container=".panel-heading" data-content="<b>Request method</b>: URL endpoint where the HTTP request is sent to.<br/><b>Content type</b>: Description of the webhook request content.<br/><b>Username</b>: Username used for basic HTTP auth.<br/><b>Password</b>: Password used for basic HTTP auth." data-original-title="What's this?" tabindex="0" data-html="true"]
+            i.fa.fa-info-circle
         .pull-right
           button.btn.btn-link.btn-xs.btn-edit-webhook[
             value="#{@webhook.id}"
@@ -68,6 +71,9 @@
   .panel-heading
     h5
       ' Headers
+      small
+        a[data-placement="right" data-toggle="popover" data-container=".panel-heading" data-content="A header is a HTTP header, i.e. is a key-value pair which is included in the HTTP request." data-original-title="What's this?" tabindex="0"]
+          i.fa.fa-info-circle
       .pull-right
         a#add_webhook_header_btn.btn.btn-xs.btn-link.js-toggle-button[role="button"]
           i.fa.fa-plus-circle
@@ -92,6 +98,9 @@
   .panel-heading
     h5
       ' Deliveries
+      small
+        a[data-placement="right" data-toggle="popover" data-container=".panel-heading" data-content="A delivery is created once a webhook has been triggered. They are not re-created but updated after retriggering." data-original-title="What's this?" tabindex="0"]
+          i.fa.fa-info-circle
   .panel-body
     .table-responsive
       table.table.table-stripped.table-hover

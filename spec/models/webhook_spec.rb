@@ -30,7 +30,7 @@ RSpec.describe Webhook, type: :model do
   it { should belong_to(:namespace) }
 
   it { should validate_presence_of(:url) }
-  it { should_not allow_value("won't work", "www,example,com").for(:url) }
+  it { should_not allow_value("won't work").for(:url) }
   it { should define_enum_for(:request_method) }
   it { should allow_value(*request_methods).for(:request_method) }
   it { should define_enum_for(:content_type) }

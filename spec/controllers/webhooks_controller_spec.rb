@@ -220,7 +220,7 @@ RSpec.describe WebhooksController, type: :controller do
           post :create, @post_params
         end.to change(Webhook, :count).by(1)
         expect(assigns(:webhook).namespace).to eq(namespace)
-        expect(assigns(:webhook).url).to eq(valid_attributes[:url])
+        expect(assigns(:webhook).url).to eq("http://#{valid_attributes[:url]}")
         expect(assigns(:webhook).enabled).to be_falsy
       end
 
@@ -236,7 +236,7 @@ RSpec.describe WebhooksController, type: :controller do
           post :create, @post_params
         end.to change(Webhook, :count).by(1)
         expect(assigns(:webhook).namespace).to eq(namespace)
-        expect(assigns(:webhook).url).to eq(valid_attributes[:url])
+        expect(assigns(:webhook).url).to eq("http://#{valid_attributes[:url]}")
         expect(assigns(:webhook).username).to eq("user")
       end
 
@@ -246,7 +246,7 @@ RSpec.describe WebhooksController, type: :controller do
           post :create, @post_params
         end.to change(Webhook, :count).by(1)
         expect(assigns(:webhook).namespace).to eq(namespace)
-        expect(assigns(:webhook).url).to eq(valid_attributes[:url])
+        expect(assigns(:webhook).url).to eq("http://#{valid_attributes[:url]}")
         expect(assigns(:webhook).password).to eq("password")
       end
 
@@ -256,7 +256,7 @@ RSpec.describe WebhooksController, type: :controller do
           post :create, @post_params
         end.to change(Webhook, :count).by(1)
         expect(assigns(:webhook).namespace).to eq(namespace)
-        expect(assigns(:webhook).url).to eq(valid_attributes[:url])
+        expect(assigns(:webhook).url).to eq("http://#{valid_attributes[:url]}")
         expect(assigns(:webhook).request_method).to eq("POST")
       end
 
@@ -266,7 +266,7 @@ RSpec.describe WebhooksController, type: :controller do
           post :create, @post_params
         end.to change(Webhook, :count).by(1)
         expect(assigns(:webhook).namespace).to eq(namespace)
-        expect(assigns(:webhook).url).to eq(valid_attributes[:url])
+        expect(assigns(:webhook).url).to eq("http://#{valid_attributes[:url]}")
         expect(assigns(:webhook).content_type).to eq("application/json")
       end
     end
