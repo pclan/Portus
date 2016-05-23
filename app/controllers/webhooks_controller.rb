@@ -12,7 +12,8 @@ class WebhooksController < ApplicationController
   # GET /namespaces/1/webhooks
   # GET /namespaces/1/webhooks.json
   def index
-    @webhooks = policy_scope(Webhook) .where(namespace: @namespace) .page(params[:page])
+    authorize @namespace
+    @webhooks = policy_scope(Webhook).where(namespace: @namespace).page(params[:page])
 
     respond_with(@namespace, @webhooks)
   end

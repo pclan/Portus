@@ -438,5 +438,15 @@ RSpec.describe WebhooksController, type: :controller do
           format:       "js"
       end.to change(PublicActivity::Activity, :count).by(1)
     end
+
+    it "tracks removal of the webhook" do
+      expect do
+        delete :destroy,
+          id:           webhook.id,
+          namespace_id: namespace.id,
+          webhook:      { url: "port.us" },
+          format:       "js"
+      end.to change(PublicActivity::Activity, :count).by(1)
+    end
   end
 end

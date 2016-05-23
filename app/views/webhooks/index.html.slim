@@ -39,25 +39,30 @@ span
         ' namespace
         strong
           = link_to @namespace.name, @namespace
-      .pull-right
-        a#add_webhook_btn.btn.btn-xs.btn-link.js-toggle-button[role="button"]
-          i.fa.fa-plus-circle
-          | Create new webhook
+      - if current_user.admin? || @namespace.team.owners.include?(current_user)
+        .pull-right
+          a#add_webhook_btn.btn.btn-xs.btn-link.js-toggle-button[role="button"]
+            i.fa.fa-plus-circle
+            | Create new webhook
   .panel-body
     .table-responsive
       table.table.table-stripped.table-hover
         col.col-40
         col.col-20
         col.col-20
-        col.col-10
-        col.col-10
+        - if current_user.admin? || @namespace.team.owners.include?(current_user)
+          col.col-10
+          col.col-10
+        -else
+          col.col-20
         thead
           tr
             th URL
             th Request method
             th Content type
             th Enabled
-            th Remove
+            - if current_user.admin? || @namespace.team.owners.include?(current_user)
+              th Remove
         tbody#webhooks
           - @webhooks.each do |webhook|
             = render partial: 'webhooks/webhook', locals: {namespace: @namespace, webhook: webhook}

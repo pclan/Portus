@@ -1,5 +1,5 @@
 <% if @webhook.errors.any? %>
-  $('#alert p').html("<%= escape_javascript(@webhook.errors.full_messages.join('<br/>')) %>");
+  $('#alert p').html("<%= escape_javascript(raw(@webhook.errors.full_messages.join('<br/>'))) %>");
   $('#alert').fadeIn();
 <% else %>
   $('#update_webhook_<%= @webhook.id %>').toggle()

@@ -25,7 +25,7 @@ require "json"
 require "uri"
 
 # A Webhook describes a kind of callback to an endpoint defined by an URL.
-# Futher parameters are username and password, which are used for basic
+# Further parameters are username and password, which are used for basic
 # authentication. The parameters request_method and content_type are limitted
 # to GET and POST, and application/json and application/x-www-form-urlencoded
 # respectively. Webhooks can be enabled or disabled.
@@ -39,23 +39,18 @@ class Webhook < ActiveRecord::Base
 
   belongs_to :namespace
 
-  has_many :deliveries, class_name: "WebhookDelivery"
-  has_many :headers, class_name: "WebhookHeader"
+  has_many :deliveries, class_name: "WebhookDelivery", dependent: :destroy
+  has_many :headers, class_name: "WebhookHeader", dependent: :destroy
 
   validates :url, presence: true, url: true
 
   # default to http if no protocol has been specified. If unspecified, the URL
   # validator will fail.
   before_validation do
-    unless url.nil? || url.strip.empty?
+    unless url.nil? || url.blank?
       self.url = "http://#{url}" unless url.start_with?("http://") ||
           url.start_with?("https://")
     end
-  end
-
-  before_destroy do
-    headers.destroy_all
-    deliveries.destroy_all
   end
 
   before_destroy :update_activities!

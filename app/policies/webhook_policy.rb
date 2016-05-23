@@ -13,12 +13,19 @@ class WebhookPolicy < NamespacePolicy
   def create?
     raise Pundit::NotAuthorizedError, "must be logged in" unless user
 
-    # Only owners have WRITE access
+    # Only admins and owners have WRITE access
     user.admin? || namespace.team.owners.exists?(user.id)
+  end
+
+  def show?
+    raise Pundit::NotAuthorizedError, "must be logged in" unless user
+
+    user.admin? || namespace.team.users.exists?(user.id)
   end
 
   alias_method :destroy?, :create?
   alias_method :toggle_enabled?, :create?
+  alias_method :update?, :create?
 
   class Scope
     attr_reader :user, :scope
